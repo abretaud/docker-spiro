@@ -12,9 +12,8 @@ RUN apt-get -q update \
     file libfreetype6 libjpeg62-turbo libpng16-16 libx11-6 libxpm4 gnupg \
     postgresql-client wget patch git unzip \
     python-setuptools cron libhwloc5 build-essential \
-    zlib1g dirmngr nano rsync \
-    libicu63 wish \
- && BUILD_DEPS="libfreetype6-dev libjpeg62-turbo-dev libmcrypt-dev libpng-dev libxpm-dev zlib1g-dev python-dev libpq-dev libicu-dev libssl-dev"; \
+    zlib1g dirmngr nano rsync libicu63 wish \
+ && BUILD_DEPS="libfreetype6-dev libjpeg62-turbo-dev libmcrypt-dev libpng-dev libxpm-dev zlib1g-dev python-dev libpq-dev libicu-dev libssl-dev" \
  && apt-get -yq --no-install-recommends install $BUILD_DEPS \
  && docker-php-ext-configure gd \
        --with-jpeg-dir=/usr/lib/x86_64-linux-gnu --with-png-dir=/usr/lib/x86_64-linux-gnu \
