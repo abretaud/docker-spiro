@@ -9,11 +9,13 @@ RUN mkdir -p /usr/share/man/man1 /usr/share/man/man7
 # Install packages and PHP-extensions
 RUN apt-get -q update \
 && DEBIAN_FRONTEND=noninteractive apt-get -yq --no-install-recommends install \
-    file libfreetype6 libjpeg62-turbo libpng16-16 libpq-dev libx11-6 libxpm4 gnupg \
-    postgresql-client wget patch git unzip python-pip libyaml-dev \
-    python-dev python-setuptools cron libhwloc5 build-essential libssl-dev \
-    zlib1g zlib1g-dev dirmngr nano python-biopython rsync \
-    libicu63 libicu-dev libldap2-dev wish \
+    file libfreetype6 libjpeg62-turbo libpng16-16 libx11-6 libxpm4 gnupg \
+    postgresql-client wget patch git unzip \
+    python-setuptools cron libhwloc5 build-essential \
+    zlib1g dirmngr nano rsync \
+    libicu63 wish \
+ && BUILD_DEPS="libfreetype6-dev libjpeg62-turbo-dev libmcrypt-dev libpng-dev libxpm-dev zlib1g-dev python-dev libpq-dev libicu-dev libssl-dev"; \
+ && apt-get -yq --no-install-recommends install $BUILD_DEPS \
  && docker-php-ext-configure gd \
        --with-jpeg-dir=/usr/lib/x86_64-linux-gnu --with-png-dir=/usr/lib/x86_64-linux-gnu \
        --with-xpm-dir=/usr/lib/x86_64-linux-gnu --with-freetype-dir=/usr/lib/x86_64-linux-gnu \
@@ -24,6 +26,7 @@ RUN apt-get -q update \
  && echo "extension=apc.so" > $PHP_INI_DIR'/conf.d/z_apc_ext.ini' \
  && echo "short_open_tag=0" > $PHP_INI_DIR'/conf.d/short_open_tag.ini' \
  && mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini" \
+ && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false -o APT::AutoRemove::SuggestsImportant=false $BUILD_DEPS \
  && rm -rf /var/lib/apt/lists/* \
  && a2enmod rewrite && a2enmod proxy && a2enmod proxy_http \
  && ln -s /usr/lib/x86_64-linux-gnu/libssl.so /usr/lib/x86_64-linux-gnu/libssl.so.10 \
