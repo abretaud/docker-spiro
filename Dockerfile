@@ -16,7 +16,7 @@ RUN apt-get -q update \
  && BUILD_DEPS="libfreetype6-dev libjpeg62-turbo-dev libmcrypt-dev libpng-dev libxpm-dev zlib1g-dev python-dev libpq-dev libicu-dev" \
  && apt-get -yq --no-install-recommends install $BUILD_DEPS \
  && docker-php-ext-configure gd \
-       --with-jpeg=/usr/lib/x86_64-linux-gnu --with-png=/usr/lib/x86_64-linux-gnu \
+       --with-jpeg=/usr/lib/x86_64-linux-gnu \
        --with-xpm=/usr/lib/x86_64-linux-gnu --with-freetype=/usr/lib/x86_64-linux-gnu \
  && docker-php-ext-install mbstring pdo_mysql mysqli zip intl gd ldap \
  && echo "no" | pecl install apcu \
