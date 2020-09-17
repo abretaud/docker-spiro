@@ -14,7 +14,10 @@ RUN apt-get -q update \
     python-dev python-setuptools cron libhwloc5 build-essential libssl-dev \
     zlib1g zlib1g-dev dirmngr nano python-biopython rsync \
     libicu63 libicu-dev libldap2-dev wish \
- && docker-php-ext-install mbstring pdo_mysql mysqli zip intl \
+ && docker-php-ext-configure gd \
+       --with-jpeg-dir=/usr/lib/x86_64-linux-gnu --with-png-dir=/usr/lib/x86_64-linux-gnu \
+       --with-xpm-dir=/usr/lib/x86_64-linux-gnu --with-freetype-dir=/usr/lib/x86_64-linux-gnu \
+ && docker-php-ext-install mbstring pdo_mysql mysqli zip intl gd \
  && echo "no" | pecl install apcu \
  && pecl install apcu_bc \
  && echo "extension=apcu.so" > $PHP_INI_DIR'/conf.d/apc_ext.ini' \
