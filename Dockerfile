@@ -13,12 +13,13 @@ RUN apt-get -q update \
     postgresql-client wget patch git unzip \
     python-setuptools cron libhwloc5 build-essential libzip4 libzip-dev \
     zlib1g dirmngr nano rsync libicu63 wish libssl-dev libldap2-dev libonig-dev \
- && BUILD_DEPS="libfreetype6-dev libjpeg62-turbo-dev libmcrypt-dev libpng-dev libxpm-dev zlib1g-dev python-dev libpq-dev libicu-dev" \
+ && BUILD_DEPS="libfreetype6-dev libjpeg62-turbo-dev libmcrypt-dev libpng-dev libxpm-dev zlib1g-dev python-dev libpq-dev libicu-dev libpq-dev" \
  && apt-get -yq --no-install-recommends install $BUILD_DEPS \
  && docker-php-ext-configure gd \
        --with-jpeg=/usr/lib/x86_64-linux-gnu \
        --with-xpm=/usr/lib/x86_64-linux-gnu --with-freetype=/usr/lib/x86_64-linux-gnu \
- && docker-php-ext-install mbstring pdo_mysql mysqli zip intl gd ldap \
+ && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
+ && docker-php-ext-install mbstring pdo_mysql pdo_pgsql mysqli zip intl gd ldap \
  && echo "no" | pecl install apcu \
  && pecl install apcu_bc \
  && echo "extension=apcu.so" > $PHP_INI_DIR'/conf.d/apc_ext.ini' \
