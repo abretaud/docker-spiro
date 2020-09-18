@@ -19,7 +19,7 @@ RUN apt-get -q update \
        --with-jpeg=/usr/lib/x86_64-linux-gnu \
        --with-xpm=/usr/lib/x86_64-linux-gnu --with-freetype=/usr/lib/x86_64-linux-gnu \
  && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
- && docker-php-ext-install mbstring pdo_mysql pdo_pgsql mysqli zip intl gd ldap \
+ && docker-php-ext-install mbstring pdo_mysql pgsql pdo_pgsql mysqli zip intl gd ldap \
  && echo "no" | pecl install apcu \
  && pecl install apcu_bc \
  && echo "extension=apcu.so" > $PHP_INI_DIR'/conf.d/apc_ext.ini' \
